@@ -1,0 +1,318 @@
+<!doctype html>
+<html>
+    <head>
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  <!-- bootstrap css template included for styling this webpage-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	    <link rel="stylesheet" type="text/css" href="style.css">  <!-- customized css file to styling this webpage and div blocks-->
+        <script src='js/jquery-1.7.2.min.js'></script>
+        <script src='js/socket.io.js'></script>
+        <script src="http://jwpsrv.com/library/zD6N9mbFEeOE9CIACi0I_Q.js"></script>
+        <script src='js/jwplayer.js'></script>
+		
+        <script> // javascript code is included in the script element otherwise you have to include the javascript file
+		    
+			
+		    window.onload = function(){       //onload executes this anonymous function as soon as the webpage finishes loading
+			    
+			    var date = new Date();        //creates a javascript Date object http://www.w3schools.com/js/js_dates.asp
+			    document.getElementById("date").innerHTML = date.toDateString();  // initalizes time and modifies what the HTML element with id "date" displays	http://www.w3schools.com/jsref/met_document_getelementbyid.asp         
+				var interval = setInterval(myTimer,1000);		// executes myTimer function every 1 second (updates time every second)
+			}
+			function changeaddress(){						// no longer part of webpage this function modifies src of the iframe to the correct web address of video stream
+			     var str1= "http://";
+				 var str3=":8080/stream/video.mjpeg";
+				 var iframe = document.getElementById('iframe');
+			     var str2 = str1.concat(document.getElementById("ipaddress").value);
+                 iframe.src = str2.concat(str3);	
+                 //iframe.src=str2;			 
+				 document.getElementById('haha').innerHTML=iframe.src;
+			}
+			function refresh(){								// refreshes video stream upon an onclick mouse click event
+				document.getElementById('iframe').src = document.getElementById('iframe').src
+			}
+			function myTimer(){								// this function generates the time 
+                var d = new Date();							// creates date object
+				var hours = d.getHours();					// gets the hour at at any given moment
+				var time = "Time: ";						
+				var string = d.toLocaleTimeString();		// returns locale time (depends on OS) as a string 
+				var am =" AM";				
+                var pm =" PM";		
+                				// This part is to slice off the second portion of the time. parseint converts a string to integer for logical comparison
+				if (parseInt(hours) >= 12){					// when time is 12 pm or later
+				     if (parseInt(hours)==12 || parseInt(hours)==22 || parseInt(hours)==23){ // at 12 pm,10 pm and 11 pm, there is a 1 in front of these times 
+																                             // therefore one more char needs to be included when slicing the string to correctly display the time
+              		    string = string.substring(0,5);     // slices the string to get rid of the seconds part of the time
+					}
+                    else{									// time is after 12 pm but not at 10 or 11 pm	
+					    string = string.substring(0,4);		// slices the string to get rid of the seconds part of the time. 
+					}	
+					var string_am_pm = string.concat(pm);	// attaches pm to time
+				}
+                else if (parseInt(hours) < 12  ){			// when time is earlier than 12 pm
+ 				    if (parseInt(hours)==0 || parseInt(hours)==10 || parseInt(hours)==11){	// similar to the 12pm,10pm,11pm condition
+              		    string = string.substring(0,5);	 //time slice to get rid of seconds component
+					}
+                    else{
+					    string = string.substring(0,4);	//time slice to get rid of seconds component
+					}					
+				    var string_am_pm = string.concat(am);	// attaches am to time
+				}
+				document.getElementById("time").innerHTML = time.concat(string_am_pm);	// changes what time the span HTML element with id "time" displays
+				
+             }
+						
+            var id = null;   // initializes id corresponding to the robot control command to null
+			document.onkeydown = checkKey;		// attaches checkey function to onkeydown event http://www.w3schools.com/jsref/event_onkeyup.asp
+            function checkKey(e) {				
+                e = e || window.event;			// for cross-browser compatibility
+												// below the keycode for the hotkey pressed is detected and the corresponding robot command is assigned to the id
+                if (e.keyCode == '87') {//w		
+                    id = "forward";					
+                }
+                else if (e.keyCode == '83') {//s
+                    id = "backward";
+                   
+                }
+                else if (e.keyCode == '65') {//a
+                    id ="left";
+                    
+                }
+                else if (e.keyCode == '68') {//d
+                    id ="right";
+                    
+                }
+                else if (e.keyCode == '81') {//q
+                    id = "stop";
+                    
+                }
+				else if (e.keyCode == '189') {//-_
+                    id = "fall";
+                   
+                }
+				else if (e.keyCode == '187') {//+=
+                    id="rise";
+                    
+                }
+				else if (e.keyCode == '188') {//  <
+                    id ="rotateleft";
+                    
+                }
+				else if (e.keyCode == '190') {//  >
+                    id="rotateright";
+		    
+                }
+                else{
+					id="";		// if none of the right keys are pressed, do not assign id anything
+                }
+                
+                hotkeyaction(id);	// the id with the string value of the robot command is passed into the hotkeyaction() function
+				//if (( id =="rotateleft") || ( id =="rotateright")){       //enable this entire block to make platform move horizontally in increments
+				//	setTimeout(function(){									// times out after 80 ms and stops the robot with socket.emit
+                //        	socket.emit('action','stop');													
+				//	}, 80);
+				//	setTimeout(function(){									// 1 second delay 
+                //        	socket.emit('action','stop');													
+				//	}, 1000);
+				//}
+		
+            }
+
+            document.onkeyup = function(){ //attaches function to onkeyup event
+				   // the block of code below is to apply a pwm to the tablet orienter motors but is commented out because the code is incomplete 
+                   //if((id != "rise") && (id != "fall") && (id!= "rotateleft") && (id!= "rotateright")){   // if command is not a  platform control command
+                   //	socket.emit('action', 'stop');			
+                   //}
+                   //else{
+                   //   socket.emit('action','maintainrise'); // this is to apply a pwm value to provide torque support to the tablet orienter board to maintain angle				                     
+                   //}
+				   socket.emit('action', 'stop');  //STOPS robot after hotkey is released	
+				   document.getElementById("forward").style.opacity="1.0";	// ALL buttons on the webpage are assigned full opacity to create the button released effect
+				   document.getElementById("backward").style.opacity="1.0";
+				   document.getElementById("left").style.opacity="1.0";
+				   document.getElementById("right").style.opacity="1.0";
+				   document.getElementById("stop").style.opacity="1.0";
+				   document.getElementById("rise").style.opacity="1.0";
+				   document.getElementById("fall").style.opacity="1.0";
+				   document.getElementById("rotateleft").style.opacity="1.0";
+				   document.getElementById("rotateright").style.opacity="1.0";
+            }
+			function hotkeyaction(id){
+			      socket.emit('action', id);		// action (forward,backward,left,right,etc) is passed to the server program app.js via socketIO
+                 var element = document.getElementById(id);	// detects hotkey pressed based on id
+			     element.style.opacity="0.2";				// makes webpage button transparent for button pressed-down effect
+			}
+            function action(id){					// handles when webpage buttons are clicked instead of hotkey being pressed
+			    socket.emit('action',id);			// action is pressed to server program app.js 
+			    document.getElementById(id).disabled = true;	//disables webpage button pressed to prevent EXCESSIVE CLICKING
+			    document.getElementById(id).style.opacity="0.2";	// for pressed-down effect
+			    if((id == "rise") || (id == "fall")){				// for rise and fall commands
+					setTimeout(function(){							// timeout function that times out after 80 ms and executes stop
+                            socket.emit('action','stop');			// stop command sent to app.js									
+							document.getElementById(id).blur();		// removes the select box on the webpage
+					}, 80);											// 80 ms set for timeout NOTE ALL TIMES CAN BE ADJUSTED BASED ON PREFERENCE!
+			    }
+			    else if((id == "rotateleft") || (id == "rotateright")){  // for rotateleft and rotateright commands
+					setTimeout(function(){
+                            socket.emit('action','stop');												
+							document.getElementById(id).blur();
+					}, 80);
+
+			    }
+			    else if ((id == "forward") || (id == "backward")){		// for forward and backward commands
+				    setTimeout(function(){
+                            socket.emit('action','stop');													
+							document.getElementById(id).blur();
+					}, 200);
+			    }
+			    else{								
+					setTimeout(function(){
+                            socket.emit('action','stop');				// for turn wheels right and left commands									
+							document.getElementById(id).blur();
+					}, 120);
+			    }
+			    setTimeout(function(){
+			    		document.getElementById(id).disabled = false;	// after command is pressed, re-enable buttons 
+			    		document.getElementById(id).style.opacity="1.0";	// button unpressed effect
+			    },1000)
+			}
+			var socket=io.connect('52.34.97.173:3000');					// connects to port 3000 of webpage address
+			socket.on('degree1', function(data){						//below are all the socketIO on() functions for receiving data to update on the webpage table
+			     document.getElementById("encodervert").innerHTML = data;  //modifies value on the table for encoder count of vertical motor
+		    });
+			socket.on('degree2', function(data){
+			     document.getElementById("encoderhoriz").innerHTML = data; //modifies value on the table for encoder count of horizontal motor
+		    });
+           		socket.on('voltage', function(data){
+			     document.getElementById("voltage").innerHTML = data;
+		    });
+			socket.on('current', function(data){
+			     document.getElementById("current").innerHTML = data;
+		    });
+			socket.on('charging', function(data){
+			     document.getElementById("charging").innerHTML = data;
+		    });
+
+            socket.on('welcome', function(data) {			// optional
+                $('#messages').append('<li>' + data.message + '</li>');
+
+                socket.emit('i am client', 'Website');
+            });
+            socket.on('time', function(data) {				// optional
+                console.log(data);
+                $('#messages').append('<li>' + data.time + '</li>');
+            });
+            socket.on('error', function() { console.error(arguments) });   // optional
+            socket.on('message', function() { console.log(arguments) });   // optional
+			
+			
+        </script>
+    </head>
+ <body >
+ <div class="main"></div>	<!-- main div block element container that encompasses entire page -->
+ 
+	<div class="toppanel" >  <!-- top left portion with project title -->
+    <span class="logo">Elderly Robotics Project @ SFU  <img src="Martin-Berube-Character-Robot.ico"  height="42" width="42"></span>		
+    <div class="timedate">		<!-- div container for time and date -->
+	<span id="date" class="date"></span>
+	<span id="time" class="time"></span> 
+	</div>	
+	</div>
+	
+	
+<div id='wrapper2'>   <!-- this "wrapper" div is set to a constant width and height to prevent elements of the webpage from getting messed up when window is resized-->
+	<div class="dropdown">  <!-- dropdown menu -->
+    <button class="btn dropdown-toggle options" type="button" data-toggle="dropdown">Options <!-- these classes for styling the dropdown menu is from bootstrap framework-->
+    <span class="caret"></span></button>
+	
+    <ul class='dropdown-menu'>  <!-- dropdown options-->
+	    <li><a href='#'>About Us</a></li>
+	    <li><a href='http://52.34.97.173'>Home</a></li>
+    </ul>
+    </div>
+<div class='container'>	  <!-- div container that contains all robot control buttons-->
+	
+			<div class="button1">
+			<button type="button" class="button " id ="forward" onclick="action(id)">Go Forward (w)</button>  	<!-- IMPORTANT the id value is passed in the action(id) after onclick event occurs-->
+			</div>
+			<div class="button2">
+			<button type="button" class="button" id ="left" onclick="action(id)">Turn Left (a)</button>       
+			</div>
+			<div class="button3">
+			<button type="button" class="button " id ="backward" onclick="action(id)">Go Backward (s)</button>		
+			</div>
+			<div class="button4">
+			<button type="button" class="button " id ="right" onclick="action(id)">Turn Right (d)</button>
+			</div>
+			<div class="button5">
+			<button type="button" class="button" id ="stop" onclick="action(id)">Stop (q)</button>
+			</div>
+		
+			<p class="horizcaption">Horizontal Platform Control</p>
+			<div class="button6"> 
+			<button type="button" class="button" id ="rotateleft" onclick="action(id)">Rotate Left (,) </button>
+			</div>
+			<div class="button7">
+			<button type="button" class="button" id ="rotateright" onclick="action(id)">Rotate Right (.)</button>
+			</div> 
+           <p class="vertcaption">Tablet Angle Control</p>	
+			<div class="button8"> 
+			<button type="button" class="button" id ="rise" onclick="action(id)">Rise (-)</button>
+			</div>
+			<div class="button9">
+			<button type="button" class="button" id ="fall" onclick="action(id)">Fall (=)</button>
+			</div>
+		
+         <!--
+		<div class="button10">
+		<button type="button" class="shutdown" id ="shutdown" onclick="shutdown()">Shutdown Rasp Pi</button>  	
+		</div>-->
+   
+	<table border="5">	<!-- table for displaying data values -->
+	  <caption>
+		<b>Stats for developers</b>
+	  </caption>
+	  <tr>    
+		<td class="tablecolumn1">Battery Status</td>		
+		<td id="charging" class="tablecolumn2"></td>
+	  </tr>
+
+	  <tr>   
+		<td class="tablecolumn1">Current Draw(A)</td>		
+		<td id="current" class="tablecolumn2"></td>
+	  </tr>
+	  <tr>  
+		<td class="tablecolumn1">Battery Voltage(V)</td>		
+		<td id="voltage" class="tablecolumn2"></td>
+	  </tr>
+	   <tr>    
+		<td class="tablecolumn1">Degree of Horizontal Encoder</td>		
+		<td id="encoderhoriz" class="tablecolumn2"></td>
+	  </tr>
+	   <tr>    
+		<td class="tablecolumn1">Degree of Vertical Encoder</td>		
+		<td id="encodervert" class="tablecolumn2"></td>
+	  </tr>
+	 
+	</table>
+ 
+</div>
+	
+
+<div class="address">  <!-- initially the ip input textbox is placed in this div block but now the refresh button is placed in this block instead--> 
+<!--Enter IP Address of video streaming site: <input id= "ipaddress" type="text" name="ipaddress" value=""><br>-->  <!-- after static ip was set, this part is now optional-->
+<!--<input type="button" onclick="changeaddress()" value="Connect" align="right">-->
+<input type="button" onclick="refresh()" value="refresh camera stream" align="right" style="background-color: #d3d3d3;">  <!-- button for refreshing video stream-->
+</div>
+
+<!-- iframe is used to embed the uv4l video stream -->
+<!--<iframe width="650" height="700" src="http://207.23.183.222:8080/stream/video.mjpeg" id="iframe" class="iframe" ></iframe>-->  <!-- src of video stream by ip-->
+<iframe width="650" height="700" src="http://ensc-erl-r1.engineering.sfu.ca:8080/stream/video.mjpeg" id="iframe" class="iframe" ></iframe></div> <!-- iframe with static hostname src-->
+<!--<div class="botpanel" >
+</div>  -->      
+<!--<ul id='messages'></ul>	 -->  
+
+
+</body>
+</html>
