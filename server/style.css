@@ -1,0 +1,343 @@
+	
+	body{
+		margin: 0 auto;		/* centres body of webpage*/
+        padding:0;         
+		/* width:100%;
+		 height:100%;
+		*/
+	}	
+	caption{		/* caption element for captions on the webpage table*/
+		color:Black;	
+		background-color:white;
+		border-style:solid;
+		border-width: 1px 1px 0px 1px;
+		display: table-caption;
+        text-align: center;
+	    font-size:25px;
+	}
+	div{
+		min-height:50px;	/* height will not be less than 50 px when window is resized*/
+	}
+	html{ 
+        margin:0;
+        padding:0;         
+		height:100%;	
+		width:100%;
+		min-width:100%;		/* height and width will not be less than full size when window is resized*/
+        min-height:100%;		
+		/* background-image:url("Robot.Frank-szn.jpg");				  
+		opacity:1.0;
+		background-size: cover;
+		background-repeat:no-repeat;
+		z-index:1;
+        filter: blur(2px);
+        -moz-filter: blur(2px);
+        -o-filter: blur(2px);
+        -ms-filter: blur(2px);
+        -webkit-filter: blur(2px);*/
+    }    
+	table{					/* sets formatting for the table*/
+		min-height:200px;
+		text-align: center;	
+		position: absolute;
+		top:60%;
+		left:25%;
+		height:200px;
+		width:400px;
+		background-color:white;
+		border-style:solid;
+		border-color:black;
+		border-width:0px 0px 0px 0px;		
+		font-weight:bold;
+		font-size:16px;
+		color:black;
+		margin: 0 ;
+		padding: 0;
+	}	
+    .address{			/* the . in front means that only the class with this certain name will be applied these css settings*/
+		position:absolute;	/* important! Absolute positioning makes elements positioned relative to the element that contains it*/
+		top:120px;
+		left:260px;
+		padding: 10px;
+		z-index:5;
+		#background-color:#d3d3d3;
+		font-weight: bold;
+		font-size:15px;
+		text-align:center
+	}
+	
+	.botpanel{
+		margin: 0 ;
+		padding: 0;
+		position:absolute;
+        left:0%;
+		bottom:8%;
+		height:8%;
+		min-height:50px;
+		max-height:50px;
+        width:100%;
+		background-color: cyan;/*#90EE90;*/
+		border-bottom:1px;
+		border-bottom-style:Solid;
+		opacity:0.7;
+		/*min-width:1400px;*/
+		overflow:hidden;
+	}
+	.btn{
+		height:50px;
+		width:133px;
+		background-color:#00e5ee;
+	}
+	
+	.button {
+		background-color: #d3d3d3; 
+		border: 2px;
+		border-color: #000000;
+		border-style: solid;
+		color: Black;
+		padding: 0;
+		text-align: center;	
+        display: inline-block;		/* makes buttons an inline block therefore can be placed side by side */
+		width:200px;
+		height:50px;
+		font-size:23px;
+		font-weight:bold;
+		margin: 1px 1px;
+		cursor: pointer;
+		border-radius:10px;
+	    filter: drop-shadow(0px 0px 5px rgba(102, 102, 102, 0.5));	/* these filter settings are for giving the buttons a shadow effect*/
+        -moz-filter: drop-shadow(0px 0px 5px rgba(102, 102, 102, 0.5)); /* different filters are for different browsers*/
+        -o-filter: drop-shadow(0px 0px 5px rgba(102, 102, 102, 0.5));
+        -ms-filter: drop-shadow(0px 0px 5px rgba(102, 102, 102, 0.5));
+        -webkit-filter: drop-shadow(0px 0px 5px rgba(102, 102, 102, 0.5));		
+    }
+    .container {
+		position:absolute;
+		height:700px;
+		min-height:700px;
+		width:700px;
+		top:10%;
+		left:49%;
+		margin: 0 ;
+		padding: 0;
+		/*border-radius: 10px;
+		border-color: #000000;
+		border-style: solid;*/
+		/*overflow:hidden;*/
+        opacity:1.0;
+        z-index: 2;	
+	}
+	.date{
+	     position:absolute;
+		 left:50%;
+		 top: 20%;
+		 font-weight:bold;
+		 font-size:25px;
+	}
+	.dropdown{
+		/*position:fixed;*/
+		position:absolute;	
+		top:4.5%;
+	    left:0%;
+        /*height:150px;*/
+		min-height:50px;  	
+	}
+	.dropdown-menu {
+        width: 135px; 
+        min-width: 0px !important;	/* overrides min-width rule set by bootstrap framework*/
+		z-index: 3;
+		position:absolute;
+		left:0%;
+		top:110%;
+		margin:0;
+    }
+	/*
+	.encoderbuttons{
+		position:absolute;
+		left:17%;
+		top:5%;
+		height:50px;
+		width:20%;
+		margin: 0 ;
+		padding: 0;		
+		
+	}*/
+	.home{
+		position:absolute;
+		top:0px;
+		left:-252px;
+	}
+	.horizcaption{
+		position:absolute;
+		left:165px;
+		top:172px;
+		width:400px;
+		font-size:25px;
+		font-weight:bold;
+		background-color:#d3d3d3;
+		z-index:2;
+		color:black;
+		text-align:center;
+		border-radius:10px;
+		border-style:none;
+		border-width:2px;
+	}
+	.iframe{
+		z-index:2;
+		position: absolute;
+		top:18%;
+		left:3%;
+        /*align: middle;*/
+        border: none;		
+		margin:0;
+        padding:0;
+		overflow:auto;
+	}
+	.logo{
+		position:relative;
+		font-weight:bold;
+		font-size:30px;
+		top:10%;	
+	}
+	.main{
+		margin: 0 ;	
+        padding: 0;
+        width:100%;
+		height:100%;
+        position:absolute; 	
+        /*min-width:1400px;*/
+        min-height:1000px;
+		background-image:url("Robot.Frank-szn.jpg"); 		/* sets background image*/  
+		opacity:1;
+		background-size: cover;
+		background-repeat:no-repeat;						/* disables repeat of background image if image doesnt fit*/
+		z-index:-1;             							/* makes the background image at a layer below everything else*/
+        filter: blur(5px);                 /* Blur makes background image unfocused. Multiple filters are for cross broswer compatibility*/
+        -moz-filter: blur(5px);				
+        -o-filter: blur(5px);
+        -ms-filter: blur(5px);
+        -webkit-filter: blur(5px);
+	
+	}
+	.options{		
+		position:absolute;
+		left:50%;
+		top:10%;
+		font-size: 18px;
+		font-weight:bold;		
+	}
+	.overlay{
+		position:absolute;
+		left:30%;
+		top:50%;
+		z-index:4;
+		opacity:1.0;
+		height:200px;
+		width:500px;
+		background-color: cyan;
+		text-align:center;
+		
+		font-size:40px;
+		font-weight:bold;
+	}
+	.overlaytext{
+		text-align:middle;
+		vertical-align:middle;
+		position:relative;
+		top:50px;
+	}
+	.shutdown{
+		width:200px;
+		height:60px;
+		border-radius:100px;
+	}
+	.tablecolumn1{
+		width:180px;		
+	}
+	.tablecolumn2{
+		width:50px;		
+	}
+	.time{
+		position:absolute;
+		left:2%;	
+        top: 20%;
+		font-weight:bold;
+		font-size:25px;
+		
+	}
+	.timedate{
+		margin:0;
+		padding: 0;
+		position:absolute;
+		top:10%;
+		left:67%;
+		width:30%;
+		font-size: 25px;
+		font-weight:bold;
+		
+	}
+    .toppanel{
+		margin: 0 ;
+		padding: 0;
+		position:absolute;
+        left:0%;
+		top:0%;
+		height:8%;
+		min-height:50px;
+		max-height:50px;
+        width:100%;
+		background-color: cyan;/*#90EE90;*/
+		border-bottom:1px;
+		border-bottom-style:Solid;
+		opacity:0.7;
+		/*min-width:1400px;*/
+		overflow:hidden;
+		z-index:9999;
+	}	
+	.vertcaption{
+		position:absolute;
+		left:165px;
+		top:275px;
+		width:400px;
+		font-size:25px;
+		font-weight:bold;
+		background-color:#d3d3d3;
+		z-index:2;
+		color:black;
+		text-align:center;
+		border-radius:10px;
+		border-style:none;
+		border-width:2px;
+	}
+	#bottom_panel{
+		position:relative;
+		height:50px;
+		top:385px;
+	}
+	#stop {background-color: #ff0000;}
+		.button1 { position:absolute; top:5px; left:250px; width:200px; height:50px;} /*fwd*/
+		.button2 { position:absolute; top:60px; left:45px; width:200px; height:50px;} /*left*/
+		.button3 { position:absolute; top:115px; left:250px; width:200px; height:50px;} /*back*/
+		.button4 { position:absolute; top:60px; right:45px; width:200px; height:50px;}  /*right*/
+		.button5 { position:absolute; top:60px; left:250px; width:200px; height:50px;}  /*stop*/
+		.button6 { position:absolute; top:215px; left:140px; width:200px; height:50px; }  /*fall*/
+		.button7 { position:absolute; top:215px; left:390px; width:200px; height:50px; }  /*rise*/
+		.button8 { position:absolute; top:315px; left:140px; width:200px; height:50px;}  /*rotate cc*/
+		.button9 { position:absolute; top:315px; left:390px; width:200px; height:50px;}  /*rotate cw*/
+    #wrapper2 {
+		position:absolute;
+		left:0%; 
+		width:100%;
+		top:0%;
+		margin:0 auto;
+		padding:0;  
+        width:100%;
+		/*min-width:1400px;*/
+		min-height:1000px;
+		filter: contrast(1.3) saturate(1);
+		-moz-filter: contrast(1.3) saturate(1);
+		-o-filter: contrast(1.3) saturate(1);
+		-ms-filter: contrast(1.3) saturate(1);
+		-webkit-filter: contrast(1.3) saturate(1);
+		z-index:9999;
+    }
